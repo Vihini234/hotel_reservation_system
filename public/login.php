@@ -1,10 +1,10 @@
 <?php
 include '../config/db.php';
 include '../includes/auth.php';
-include '../includes/header.php';
+$error = '';
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']);
+    $username = trim(string: $_POST['username']);
     $password = $_POST['password'];
     $stmt = $conn->prepare("SELECT id, password, role FROM users WHERE username=?");
     $stmt->bind_param("s", $username);
@@ -26,6 +26,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <style>
+    .main-header {
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        padding: 1.2em 0;
+        margin-bottom: 2em;
+    }
+    .main-header .nav {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 2em;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2em;
+    }
+    .main-header .nav a {
+        color: #2563eb;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 1.1em;
+        padding: 0.3em 1em;
+        border-radius: 6px;
+        transition: background 0.2s, color 0.2s;
+    }
+    .main-header .nav a:hover, .main-header .nav a.active {
+        background: #2563eb;
+        color: #fff;
+    }
 body {
     font-family: Arial, sans-serif;
     background: #f4f6f8;
@@ -97,6 +125,13 @@ a:hover {
     text-decoration: underline;
 }
 </style>
+<header class="main-header">
+    <nav class="nav">
+        <a href="index.php">Home</a>
+        <a href="login.php" class="active">Login</a>
+        <a href="register.php">Register</a>
+    </nav>
+</header>
 <div class="container">
     <h2>Login</h2>
     <?php if ($error): ?><div class="alert"><?php echo $error; ?></div><?php endif; ?>

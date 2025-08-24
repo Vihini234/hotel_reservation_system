@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean Breeze Resort - Hotel Reservation System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 50%, #2563eb 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .header h1 .highlight {
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #00d4ff;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #00bde6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .amenity-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .amenity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .amenity-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .amenity-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .amenity-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .rooms-section {
+            background: #f8f9fa;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .room-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .room-image {
+            height: 200px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .room-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .room-type-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 212, 255, 0.9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .room-content {
+            padding: 25px;
+        }
+
+        .room-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .room-price {
+            font-size: 1.8rem;
+            color: #4a90e2;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .room-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .room-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 20px;
+            font-size: 14px;
+            border-radius: 20px;
+        }
+
+        .explore-btn {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-cta {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .footer-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .amenities-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rooms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🌊 Ocean Breeze Resort</div>
+            <h1>Welcome to <span class="highlight">Ocean Breeze</span> Resort</h1>
+            <p>Experience the finest luxury in a breathtaking ocean setting. Indulge in world-class amenities, beaches, and the breathtaking sound of seawaves. Your perfect vacation escape awaits.</p>
+            <div class="header-buttons">
+                <a href="#" class="btn btn-primary">Explore Rooms</a>
+                <a href="#" class="btn btn-secondary">Book Your Stay</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Resort Amenities Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Resort Amenities</h2>
+            <p class="section-subtitle">Immerse yourself in luxury with our world-class amenities designed to enhance your unforgettable experience</p>
+            
+            <div class="amenities-grid">
+                <div class="amenity-card">
+                    <div class="amenity-icon">📶</div>
+                    <h3>Free WiFi</h3>
+                    <p>High-speed internet resort-wide</p>
+                </div>
+                
+                <div class="amenity-card">
+                    <div class="amenity-icon">🚗</div>
+                    <h3>Free Parking</h3>
+                    <p>Complimentary parking for all guests</p>
+                </div>
+                
+                <div class="amenity-card">
+                    <div class="amenity-icon">🛎️</div>
+                    <h3>24/7 Room Service</h3>
+                    <p>Round-the-clock dining service</p>
+                </div>
+                
+                <div class="amenity-card">
+                    <div class="amenity-icon">🍽️</div>
+                    <h3>Oceanview Restaurant</h3>
+                    <p>Fresh seafood with a spectacular view</p>
+                </div>
+                
+                <div class="amenity-card">
+                    <div class="amenity-icon">💪</div>
+                    <h3>Fitness Center</h3>
+                    <p>Modern gym & personal trainers</p>
+                </div>
+                
+                <div class="amenity-card">
+                    <div class="amenity-icon">🏖️</div>
+                    <h3>Private Beach</h3>
+                    <p>Exclusive access & water sports</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Oceanfront Accommodations Section -->
+    <section class="section rooms-section">
+        <div class="container">
+            <h2 class="section-title">Oceanfront Accommodations</h2>
+            <p class="section-subtitle">Choose from our collection of elegantly appointed rooms, each offering breathtaking ocean views</p>
+            
+            <div class="rooms-grid">
+                <div class="room-card">
+                    <div class="room-image">
+                        <div class="room-type-badge">Sea View</div>
+                    </div>
+                    <div class="room-content">
+                        <h3 class="room-title">Ocean View Room</h3>
+                        <div class="room-price">$180/night</div>
+                        <p class="room-description">Cozy and stylish room with stunning ocean views and modern amenities for a comfortable stay.</p>
+                        <div class="room-actions">
+                            <a href="#" class="btn btn-primary btn-small">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="room-card">
+                    <div class="room-image">
+                        <div class="room-type-badge">Oceanfront</div>
+                    </div>
+                    <div class="room-content">
+                        <h3 class="room-title">Deluxe Oceanfront</h3>
+                        <div class="room-price">$280/night</div>
+                        <p class="room-description">Spacious suite with panoramic ocean views and premium furnishings for the ultimate luxury experience.</p>
+                        <div class="room-actions">
+                            <a href="#" class="btn btn-primary btn-small">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="room-card">
+                    <div class="room-image">
+                        <div class="room-type-badge">Presidential</div>
+                    </div>
+                    <div class="room-content">
+                        <h3 class="room-title">Presidential Suite</h3>
+                        <div class="room-price">$450/night</div>
+                        <p class="room-description">Our most luxurious accommodation with private terrace, premium amenities and personalized service.</p>
+                        <div class="room-actions">
+                            <a href="#" class="btn btn-primary btn-small">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="explore-btn">
+                <a href="#" class="btn btn-primary">Explore All Rooms</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="footer-cta">
+        <div class="container">
+            <h2>Dive Into Paradise</h2>
+            <p>Book your perfect oceanfront getaway today</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Hotel Reservation System</p>
+        </div>
+    </footer>
+</body>
+</html>
